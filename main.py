@@ -9,7 +9,7 @@ def open_grafik():
 
 def open_simpleks():
     window.withdraw()
-    subprocess.call(["python", "simpleks.py"])
+    subprocess.call(["python", "simplex.py"])
     window.deiconify()
 
 def open_aljabar():
