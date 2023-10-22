@@ -1,35 +1,39 @@
+# Import modul-modul yang diperlukan
 import tkinter as tk
 from tkinter import Label, Entry, Button, Toplevel
-import optimization_simplex
+import optimization_simplex  # Modul yang berisi fungsi-fungsi untuk optimasi simplex
+
 
 # Fungsi untuk membuat entri untuk kolom kendala (c)
 def create_c_entries():
-    range_i = int(range_i_entry.get())
-    range_j = int(range_j_entry.get())
+    range_i = int(range_i_entry.get())  # Input: Banyaknya kendala (baris)
+    range_j = int(range_j_entry.get())  # Input: Banyaknya variabel (kolom)
 
     # Iterasi untuk membuat entri untuk setiap kendala (c_ij)
     for i in range(range_i):
         c_row = []
-        for j in range(range_j+1):
-            label_text = f"kendala:"
+        for j in range(range_j + 1):  # Kolom terakhir adalah solusi
+            label_text = f"kendala {i+1},{j+1}:"  # Output: Label kendala
             Label(second_window, text=label_text).grid(row=10, column=0)
             entry = Entry(second_window)
             entry.grid(row=10 + i, column=2 * j + 1)
             c_row.append(entry)
         c_entries.append(c_row)
 
+
 # Fungsi untuk membuat entri untuk variabel (a)
 def create_a_entries():
-    range_j = int(range_j_entry.get())
+    range_j = int(range_j_entry.get())  # Input: Banyaknya variabel
     a_values.clear()  # Bersihkan list a_values sebelumnya
 
     # Iterasi untuk membuat entri untuk setiap variabel (x_j)
     for j in range(range_j):
-        label_text = f"x{j+1}:"
+        label_text = f"x{j+1}:"  # Output: Label variabel
         Label(second_window, text=label_text).grid(row=2 + j, column=0)
         entry = Entry(second_window)
         entry.grid(row=2 + j, column=1)
         a_values.append(entry)
+
 
 # Fungsi untuk membuka jendela kedua
 def open_second_window():
@@ -41,14 +45,21 @@ def open_second_window():
     create_c_entries()  # Panggil fungsi untuk membuat entri kendala (c)
 
     # Buat tombol untuk optimasi maksimum dan minimum
-    optimize_button = Button(second_window, text="Optimasi Maksimum", command=optimize_and_simplex_max)
-    optimize_button.grid(row=2, column=4+len(a_values))
-    optimize_button = Button(second_window, text="Optimasi Minimum", command=optimize_and_simplex_min)
-    optimize_button.grid(row=3, column=4+len(a_values))
+    optimize_button = Button(
+        second_window, text="Optimasi Maksimum", command=optimize_and_simplex_max
+    )
+    optimize_button.grid(row=2, column=4 + len(a_values))
+    optimize_button = Button(
+        second_window, text="Optimasi Minimum", command=optimize_and_simplex_min
+    )
+    optimize_button.grid(row=3, column=4 + len(a_values))
+
 
 # Fungsi untuk melakukan optimasi maksimum dan menampilkan simplexnya
 def optimize_and_simplex_max():
-    a_values_list = [float(entry.get()) for entry in a_values]
+    a_values_list = [
+        float(entry.get()) for entry in a_values
+    ]  # Input: Nilai variabel (a)
     c_values = []
 
     # Mendapatkan nilai-nilai dari entri kendala (c_ij)
@@ -56,14 +67,19 @@ def optimize_and_simplex_max():
         c_row = []
         for j in range(len(c_entries[i])):
             entry = c_entries[i][j]
-            c_row.append(float(entry.get()))
+            c_row.append(float(entry.get()))  # Input: Nilai kendala (c_ij)
         c_values.append(c_row)
 
-    optimization_simplex.optimize_and_simplex_max(a_values_list, c_values)
+    optimization_simplex.optimize_and_simplex_max(
+        a_values_list, c_values
+    )  # Output: Hasil optimasi maksimum
+
 
 # Fungsi untuk melakukan optimasi minimum dan menampilkan simplexnya
 def optimize_and_simplex_min():
-    a_values_list = [float(entry.get()) for entry in a_values]
+    a_values_list = [
+        float(entry.get()) for entry in a_values
+    ]  # Input: Nilai variabel (a)
     c_values = []
 
     # Mendapatkan nilai-nilai dari entri kendala (c_ij)
@@ -71,10 +87,13 @@ def optimize_and_simplex_min():
         c_row = []
         for j in range(len(c_entries[i])):
             entry = c_entries[i][j]
-            c_row.append(float(entry.get()))
+            c_row.append(float(entry.get()))  # Input: Nilai kendala (c_ij)
         c_values.append(c_row)
 
-    optimization_simplex.optimize_and_simplex_min(a_values_list, c_values)
+    optimization_simplex.optimize_and_simplex_min(
+        a_values_list, c_values
+    )  # Output: Hasil optimasi minimum
+
 
 # Inisialisasi jendela utama (GUI)
 window = tk.Tk()

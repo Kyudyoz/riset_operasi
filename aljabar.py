@@ -2,15 +2,16 @@ import tkinter as tk
 from tkinter import Label, Entry, Button, Toplevel
 import optimization_aljabar
 
+
 # Fungsi untuk membuat entri untuk kolom kendala (c)
 def create_c_entries():
-    range_i = int(range_i_entry.get())
-    range_j = int(range_j_entry.get())
+    range_i = int(range_i_entry.get())  # Input: Jumlah kendala (i)
+    range_j = int(range_j_entry.get())  # Input: Jumlah variabel (j)
 
     # Iterasi untuk membuat entri untuk setiap kendala (c_ij)
     for i in range(range_i):
         c_row = []
-        for j in range(range_j+1):
+        for j in range(range_j + 1):
             label_text = f"kendala:"
             Label(second_window, text=label_text).grid(row=10, column=0)
             entry = Entry(second_window)
@@ -18,9 +19,10 @@ def create_c_entries():
             c_row.append(entry)
         c_entries.append(c_row)
 
+
 # Fungsi untuk membuat entri untuk variabel (a)
 def create_a_entries():
-    range_j = int(range_j_entry.get())
+    range_j = int(range_j_entry.get())  # Input: Jumlah variabel (j)
     a_values.clear()  # Bersihkan list a_values sebelumnya
 
     # Iterasi untuk membuat entri untuk setiap variabel (x_j)
@@ -30,6 +32,7 @@ def create_a_entries():
         entry = Entry(second_window)
         entry.grid(row=2 + j, column=1)
         a_values.append(entry)
+
 
 # Fungsi untuk membuka jendela kedua
 def open_second_window():
@@ -41,14 +44,21 @@ def open_second_window():
     create_c_entries()  # Panggil fungsi untuk membuat entri kendala (c)
 
     # Buat tombol untuk optimasi maksimum dan minimum
-    optimize_button = Button(second_window, text="Optimasi Maksimum", command=optimize_and_aljabar_max)
-    optimize_button.grid(row=2, column=4+len(a_values))
-    optimize_button = Button(second_window, text="Optimasi Minimum", command=optimize_and_aljabar_min)
-    optimize_button.grid(row=3, column=4+len(a_values))
+    optimize_button = Button(
+        second_window, text="Optimasi Maksimum", command=optimize_and_aljabar_max
+    )
+    optimize_button.grid(row=2, column=4 + len(a_values))
+    optimize_button = Button(
+        second_window, text="Optimasi Minimum", command=optimize_and_aljabar_min
+    )
+    optimize_button.grid(row=3, column=4 + len(a_values))
+
 
 # Fungsi untuk melakukan optimasi maksimum dan menampilkan aljabarnya
 def optimize_and_aljabar_max():
-    a_values_list = [float(entry.get()) for entry in a_values]
+    a_values_list = [
+        float(entry.get()) for entry in a_values
+    ]  # Input: Koefisien fungsi tujuan (a_values)
     c_values = []
 
     # Mendapatkan nilai-nilai dari entri kendala (c_ij)
@@ -57,13 +67,16 @@ def optimize_and_aljabar_max():
         for j in range(len(c_entries[i])):
             entry = c_entries[i][j]
             c_row.append(float(entry.get()))
-        c_values.append(c_row)
+        c_values.append(c_row)  # Input: Matriks koefisien kendala (c_values)
 
     optimization_aljabar.optimize_and_aljabar_max(a_values_list, c_values)
 
+
 # Fungsi untuk melakukan optimasi minimum dan menampilkan aljabarnya
 def optimize_and_aljabar_min():
-    a_values_list = [float(entry.get()) for entry in a_values]
+    a_values_list = [
+        float(entry.get()) for entry in a_values
+    ]  # Input: Koefisien fungsi tujuan (a_values)
     c_values = []
 
     # Mendapatkan nilai-nilai dari entri kendala (c_ij)
@@ -72,9 +85,10 @@ def optimize_and_aljabar_min():
         for j in range(len(c_entries[i])):
             entry = c_entries[i][j]
             c_row.append(float(entry.get()))
-        c_values.append(c_row)
+        c_values.append(c_row)  # Input: Matriks koefisien kendala (c_values)
 
     optimization_aljabar.optimize_and_aljabar_min(a_values_list, c_values)
+
 
 # Inisialisasi jendela utama (GUI)
 window = tk.Tk()
